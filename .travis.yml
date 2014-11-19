@@ -4,3 +4,9 @@ node_js:
   - "0.10"
 services: mongodb
 before_install: npm install -g grunt-cli
+notifications:
+  email:
+    recipients:
+      - rdurham1007@gmail.com
+    on_success: [always] # default: change
+    on_failure: [always] # default: always
