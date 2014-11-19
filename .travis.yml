@@ -8,5 +8,5 @@ notifications:
   email:
     recipients:
       - rdurham1007@gmail.com
-    on_success: [always] # default: change
-    on_failure: [always] # default: always
+    on_success: always # default: change
+    on_failure: always # default: always
