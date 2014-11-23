@@ -1,7 +1,7 @@
 var util = require('../utils'),
     expect = require('chai').expect,
     eveApiMock = require('../eveApiMock'),
-    Keys = require('../../src/index').Keys(eveApiMock),
+    Keys = require('../../src/index').Keys,
     KeyModel = require('../../src/keys/key-model'),
     mongoose = require('mongoose');
 
@@ -27,6 +27,8 @@ describe('creating a key', function(){
             type: 'Character'
         }
     };
+
+    Keys.use(eveApiMock);
 
     before(function(done){
         util.collections.clear('keys').then(function(){

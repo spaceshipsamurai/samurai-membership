@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var memberSchema = mongoose.Schema({
-    groupId: Schema.ObjectId,
+    group: { type: Schema.ObjectId, ref: 'Group'},
     userId: Schema.ObjectId,
     characters: [{
         id: Number,

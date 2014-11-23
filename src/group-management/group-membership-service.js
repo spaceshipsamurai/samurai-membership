@@ -1,11 +1,12 @@
 var Member = require('./member-model'),
-    Promise = require('bluebird');
+    Promise = require('bluebird'),
+    Keys = require('../keys/key-service');
 
 exports.removeAllFromGroup = function(groupId) {
 
     return new Promise(function(resolve, reject){
 
-        Member.find({ groupId: groupId }).remove(function(err){
+        Member.find({ group: groupId }).remove(function(err){
 
             if(err) reject(err);
 
@@ -34,6 +35,40 @@ exports.apply = function(groupId, application){
             if(err) reject(err);
 
             resolve(member);
+
+        });
+
+    });
+
+};
+
+exports.getByUserId = function(userId) {
+
+    return new Promise(function(resolve, reject){
+
+        Keys.getCharacters({ userId: userId, validOnly: true }).then(function(characters){
+
+            var cids = [];
+
+            for(var x = 0; x < characters.length; x++)
+                cids.push(characters[x].id);
+
+            Member.find({ 'characters.id': { $in: cids }}).populate('group').exec(function(err, members){
+
+                if(err) reject(err);
+
+                var groups = {};
+
+                console.log('MEMBERS: ' + members);
+
+                for(var x = 0; x < members.length; x++)
+                {
+                    groups[members[x].group.name] = members[x].group;
+                }
+
+                resolve(groups);
+
+            });
 
         });
 

@@ -44,7 +44,7 @@ describe('deleting a group', function(){
             return utils.createModel('Group', existingGroup);
         }).then(function(group){
             existingGroup = group;
-            existingMembers[0].groupId = existingGroup._id;
+            existingMembers[0].group = existingGroup._id;
 
             var promises = [];
 
@@ -77,7 +77,7 @@ describe('deleting a group', function(){
 
             expect(members).to.be.a('array');
             expect(members).to.have.length(1);
-            expect(members[0].groupId).to.eql(existingMembers[1].groupId);
+            expect(members[0].group).to.eql(existingMembers[1].group);
             done();
         });
 

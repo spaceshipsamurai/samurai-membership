@@ -1,13 +1,12 @@
-var neow,
+var neow = require('neow'),
     Key = require('./key-model'),
     Promise = require('bluebird')
 
-module.exports = function(eveApi){
+module.exports = function(){
 
-    if(!neow)
-    {
-        neow = eveApi || require('neow');
-    }
+    var use = function(api) {
+        neow = api;
+    };
 
     var create = function(params) {
         return new Promise(function(resolve, reject){
@@ -70,9 +69,43 @@ module.exports = function(eveApi){
         });
     };
 
+    var getCharacters = function(options) {
+
+        return new Promise(function(resolve, reject){
+
+            if(!options.userId) reject('Missing required parameter userId');
+            if(options.validOnly === undefined) options.validOnly = true;
+
+            var search = { userId: options.userId };
+            if(options.validOnly) search.status = 'Valid';
+
+            Key.find(search, function(err, keys){
+
+                if(err) reject(err);
+
+                var characters = [];
+
+                for(var x = 0; x < keys.length; x ++)
+                {
+                    for(var c = 0; c < keys[x].characters.length; c++)
+                    {
+                        characters.push(keys[x].characters[c]);
+                    }
+                }
+
+                resolve(characters);
+
+            });
+
+        });
+
+    };
+
     return {
-        create: create
+        create: create,
+        getCharacters: getCharacters,
+        use: use
     }
 
-};
+}();
 

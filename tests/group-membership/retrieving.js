@@ -48,29 +48,43 @@ describe('getting memberships by userId', function(){
     before(function(done){
         var promises = [];
 
-        var groupPromise = utils.createModel('Group', group).then(function(savedGroup){
-            group = savedGroup
-            member.groupId = group._id;
+        utils.collections.clearAll().then(function(){
 
-            return utils.createModel('Member', member).then(function(savedMember){
-                member = savedMember;
+            var groupPromise = utils.createModel('Group', group).then(function(savedGroup){
+                group = savedGroup;
+                member.group = group._id;
+
+                return utils.createModel('Member', member).then(function(savedMember){
+                    member = savedMember;
+                });
             });
+
+            var keyPromise = utils.createModel('Key', key);
+
+            promises.push(groupPromise);
+            promises.push(keyPromise);
+
+            Promise.all(promises).then(function(){
+                done();
+            }).catch(function(err){
+                done(new Error(err));
+            });
+
         });
+    });
 
-        var keyPromise = utils.createModel('Key', key);
 
-        promises.push(groupPromise);
-        promises.push(keyPromise);
-
-        Promise.all(promises).then(function(){
+    it('should return an object containing the users groups', function(done){
+        Groups.getByUserId(userId).then(function(groups){
+            expect(groups).to.exist;
+            expect(groups['Test Group']).to.exist;
+            expect(groups['Test Group']._id).to.eql(group._id);
             done();
         }).catch(function(err){
             done(new Error(err));
         });
     });
 
-
-    it('should return an object containing the users groups');
     it('should have a list of the user\'s characters for each group');
     it('should ignore characters that belong to invalid keys');
 

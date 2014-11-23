@@ -15,6 +15,6 @@ describe('adding a manager', function(){
 describe('adding a manager', function(){
 
     it('should set the characters status to \'Member\'');
-    it('should remove the character to the group\'s manager list');
+    it('should add the character to the group\'s manager list');
 
 });
