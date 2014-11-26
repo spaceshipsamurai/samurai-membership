@@ -85,6 +85,9 @@ describe('getting memberships by userId', function(){
         });
     });
 
+    it('should not include groups where the character is no longer in the alliance');
+    it('should ')
+
     it('should have a list of the user\'s characters for each group');
     it('should ignore characters that belong to invalid keys');
 
