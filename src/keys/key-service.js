@@ -108,7 +108,7 @@ module.exports = function(){
             Key.find({userId: userId}, function(err, keys){
                 if(err) return reject(err);
                 resolve(keys);
-            })
+            });
 
         });
 
