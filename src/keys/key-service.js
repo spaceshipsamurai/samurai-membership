@@ -101,10 +101,34 @@ module.exports = function(){
 
     };
 
+    var getByUserId = function(userId) {
+
+        return new Promise(function(resolve, reject){
+
+            Key.find({userId: userId}, function(err, keys){
+                if(err) return reject(err);
+                resolve(keys);
+            })
+
+        });
+
+    };
+
+    var remove = function(keyId) {
+        return new Promise(function(resolve, reject){
+            Key.find({keyId: keyId }).remove(function(err){
+                if(err) return reject(err);
+                resolve();
+            });
+        });
+    };
+
     return {
         create: create,
         getCharacters: getCharacters,
-        use: use
+        use: use,
+        getByUserId: getByUserId,
+        remove: remove
     }
 
 }();
