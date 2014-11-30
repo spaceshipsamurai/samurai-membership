@@ -4,3 +4,5 @@ var groupService = require('./group-service'),
 exports.create = groupService.create;
 exports.remove = groupService.remove;
 exports.apply = memberService.apply;
+exports.getByUserId = memberService.getByUserId;
+exports.acceptMember = memberService.acceptMember;

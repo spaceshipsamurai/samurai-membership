@@ -78,3 +78,22 @@ exports.createModel = function(type, model) {
 
 var src = require(path.join(path.normalize(__dirname + './../'), 'src'));
 exports.src =  src;
+
+var clone = function(obj){
+
+    if(obj == null || typeof(obj) != 'object')
+        return obj;
+
+    var temp = obj.constructor(); // changed
+
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key)) {
+            temp[key] = clone(obj[key]);
+        }
+    }
+
+    return temp;
+
+};
+
+exports.clone = clone;

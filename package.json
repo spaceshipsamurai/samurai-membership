@@ -19,7 +19,7 @@
     "grunt-contrib-watch": "~0.6.1"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
