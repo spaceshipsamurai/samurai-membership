@@ -41,7 +41,7 @@ describe('getting memberships by userId', function(){
             approvedDate: new Date(),
             approvedBy: mongoose.Types.ObjectId(),
             appliedDate: new Date(),
-            status: 'Member'
+            status: 'Accepted'
         }]
     };
 

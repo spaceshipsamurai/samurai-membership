@@ -23,7 +23,7 @@ describe('deleting a group', function(){
             approvedDate: new Date(),
             approvedBy: mongoose.Types.ObjectId(),
             appliedDate: new Date(),
-            status: 'Member'
+            status: 'Accepted'
         }]
     }, {
         groupId: mongoose.Types.ObjectId(),
@@ -34,7 +34,7 @@ describe('deleting a group', function(){
             approvedDate: new Date(),
             approvedBy: mongoose.Types.ObjectId(),
             appliedDate: new Date(),
-            status: 'Member'
+            status: 'Accepted'
         }]
     }];
 
