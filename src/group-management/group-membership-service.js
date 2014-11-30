@@ -1,6 +1,5 @@
 var Member = require('./member-model'),
-    Promise = require('bluebird'),
-    Keys = require('../keys/key-service');
+    Promise = require('bluebird');
 
 exports.removeAllFromGroup = function (groupId) {
 
@@ -89,9 +88,39 @@ exports.getByUserId = function (userId) {
             }
 
             resolve(groups);
+        });
+    });
+};
+
+exports.acceptMember = function(params) {
+
+    return new Promise(function(resolve, reject){
+
+        if(!params.groupId) return reject('Missing groupId');
+        if(!params.characterId) return reject('Missing characterId');
+        if(!params.approvedBy) return rejct('Missing approvedBy');
+
+        Member.findOne({'characters.id': params.characterId, group: params.groupId }, function(err, member){
+
+            if(err) return reject(err);
+            if(!member) return reject('Unable to find membership for CID: ' + params.characterId + ' and GID ' + params.groupId);
+
+            for(var c = 0; c < member.characters.length; c++)
+            {
+                if(member.characters[c].id === params.characterId) {
+                    member.characters[c].status = 'Accepted';
+                    member.characters[c].approvedDate = new Date();
+                    member.characters[c].approvedBy = params.approvedBy;
+                    break;
+                }
+            }
+
+            member.save(function(err){
+                if(err) return reject(err);
+                resolve();
+            });
 
         });
-
 
     });
 
