@@ -116,9 +116,15 @@ describe('creating a key', function(){
             Keys.create({ id: 123, vCode: 'abcdef' }).then(function(){
                 done('Key was created');
             }).catch(function(err){
+
                 expect(err).to.exist;
                 expect(err).to.eql('Invalid access mask');
-                done();
+
+                KeyModel.findOne({ id: 123 }, function(e, savedKey){
+                    expect(savedKey).to.not.exist;
+                    done();
+                });
+
             }).catch(function(err){
                 done(err);
             });

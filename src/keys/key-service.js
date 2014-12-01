@@ -25,8 +25,8 @@ module.exports = function(){
                 access = access | 4096; //market orders
                 access = access | 4194304; //Wallet Transactions
 
-                if(access != 268435455) reject('Invalid access mask');
-                if(!keyData.type || keyData.type != 'Account') reject('Invalid key type');
+                if(access != 268435455) return reject('Invalid access mask');
+                if(!keyData.type || keyData.type != 'Account') return reject('Invalid key type');
 
                 var newKey = new Key({
                     keyId: params.id,
@@ -60,7 +60,7 @@ module.exports = function(){
                 }
 
                 newKey.save(function(err, key){
-                    if(err) reject(err);
+                    if(err) return reject(err);
 
                     resolve(key);
                 });
@@ -73,7 +73,7 @@ module.exports = function(){
 
         return new Promise(function(resolve, reject){
 
-            if(!options.userId) reject('Missing required parameter userId');
+            if(!options.userId) return reject('Missing required parameter userId');
             if(options.validOnly === undefined) options.validOnly = true;
 
             var search = { userId: options.userId };
@@ -81,7 +81,7 @@ module.exports = function(){
 
             Key.find(search, function(err, keys){
 
-                if(err) reject(err);
+                if(err) return reject(err);
 
                 var characters = [];
 
