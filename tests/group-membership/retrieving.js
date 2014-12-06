@@ -322,6 +322,55 @@ describe('getting memberships by userId', function(){
         });
 
     });
+});
+
+describe('getting members by group id', function(){
+
+    var group = {
+            name: 'Test Group',
+            createdDate: new Date(),
+            createdBy: mongoose.Types.ObjectId()
+        },
+        member = {
+            userId: mongoose.Types.ObjectId(),
+            characters: [{
+                id: 1,
+                name: 'Test Character',
+                approvedDate: new Date(),
+                approvedBy: mongoose.Types.ObjectId(),
+                appliedDate: new Date(),
+                status: 'Accepted'
+            },{
+                id: 2,
+                name: 'Test Character 2',
+                approvedDate: new Date(),
+                approvedBy: mongoose.Types.ObjectId(),
+                appliedDate: new Date(),
+                status: 'Inactive'
+            }]
+        };
+
+    before(function(done) {
+        utils.createModel('Group', group).then(function(newGroup){
+
+            group = newGroup;
+            member.group = group._id;
+            utils.createModel('Member', member).then(function(newMember){
+                member = newMember;
+                done();
+            })
+
+        });
+    });
+
+    it('should return a list of members', function(done){
+        Groups.getMembersByGroup(group._id).then(function(members){
+            expect(members).to.exist;
+            expect(members).to.be.a('array');
+            expect(members).to.have.length(1);
+            done();
+        });
+    });
 
 
 });

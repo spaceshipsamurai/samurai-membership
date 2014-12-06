@@ -92,6 +92,22 @@ exports.getByUserId = function (userId) {
     });
 };
 
+exports.getByGroup = function(groupId) {
+
+    return new Promise(function(resolve, reject){
+
+        Member.find({ group: groupId }, function(err, members){
+
+            if(err) return reject(err);
+
+            return resolve(members);
+
+        });
+
+    });
+
+};
+
 exports.acceptMember = function(params) {
 
     return new Promise(function(resolve, reject){
@@ -123,5 +139,4 @@ exports.acceptMember = function(params) {
         });
 
     });
-
 };

@@ -40,3 +40,17 @@ exports.remove = function(groupId) {
         });
     });
 };
+
+exports.getAllGroups = function() {
+    return new Promise(function(resolve, reject){
+
+        Group.find({}, function(err, groups){
+
+            if(err) return reject(err);
+
+            return resolve(groups);
+
+        });
+
+    });
+};
