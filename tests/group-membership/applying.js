@@ -45,11 +45,12 @@ describe('applying to a group', function(){
                 expect(members[0].characters).to.be.a('array');
                 expect(members[0].characters).to.have.length(1);
                 expect(members[0].characters[0].status).to.eql('Pending');
+                expect(members[0].group).to.eql(group._id);
                 done();
             });
 
         }).catch(function(err){
-            done(err);
+            done(new Error(err));
         })
     });
 

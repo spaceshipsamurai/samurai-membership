@@ -21,7 +21,7 @@ exports.apply = function (groupId, application) {
     return new Promise(function (resolve, reject) {
 
         Member.create({
-            groupId: groupId,
+            group: groupId,
             userId: application.userId,
             characters: [{
                 id: application.character.id,
