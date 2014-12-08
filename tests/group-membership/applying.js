@@ -97,8 +97,61 @@ describe('applying to a group', function(){
 
     describe('when the user is already a member', function(){
 
+        var group,
+            userId = mongoose.Types.ObjectId();
+
+        before(function(done){
+
+            utils.collections.clearAll().then(function(){
+                return utils.createModel('Group', {
+                    name: 'Test Group',
+                    createdBy: mongoose.Types.ObjectId(),
+                    createdDate: new Date()
+                });
+            }).then(function(newGroup){
+                group = newGroup;
+
+                utils.createModel('Member', {
+                    userId: userId,
+                    group: group._id,
+                    characters: [{
+                        id: 1,
+                        name: 'Test Character'
+                    }]
+                }).then(function(){
+                    done();
+                });
+            })
+
+        });
+
         it('should return an error if it\'s the same character');
-        it('should add the new character as pending')
+        it('should add the new character as pending', function(done){
+
+            Groups.apply(group._id, {
+                userId: userId,
+                character: {
+                    id: 2,
+                    name: 'Test Character 2'
+                }
+            }).then(function(){
+                MemberModel.find({ userId: userId }, function(err, members){
+
+                    if(err) done(err);
+
+                    expect(members).to.be.a('array');
+                    expect(members).to.have.length(1);
+                    expect(members[0].characters).to.be.a('array');
+                    expect(members[0].characters).to.have.length(2);
+                    expect(members[0].characters[1].name).to.equal('Test Character 2');
+
+                    done();
+                });
+            }).catch(function(err){
+                done(new Error(err));
+            });
+
+        });
 
     });
 

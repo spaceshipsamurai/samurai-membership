@@ -20,20 +20,29 @@ exports.apply = function (groupId, application) {
 
     return new Promise(function (resolve, reject) {
 
-        Member.create({
-            group: groupId,
-            userId: application.userId,
-            characters: [{
+        Member.findOne({ userId: application.userId, group: groupId }, function(err, member){
+            if(err) return reject(err);
+
+            if(!member){
+                member = new Member({
+                    group: groupId,
+                    userId: application.userId,
+                    characters: []
+                });
+            }
+
+            member.characters.push({
                 id: application.character.id,
                 name: application.character.name,
                 appliedDate: new Date(),
                 status: 'Pending'
-            }]
-        }, function (err, member) {
+            });
 
-            if (err) reject(err);
+            member.save(function(err, savedMember){
+                if(err) reject(err);
 
-            resolve(member);
+                resolve(savedMember);
+            });
 
         });
 
