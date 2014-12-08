@@ -116,14 +116,22 @@ exports.acceptMember = function(params) {
         if(!params.characterId) return reject('Missing characterId');
         if(!params.approvedBy) return rejct('Missing approvedBy');
 
-        Member.findOne({'characters.id': params.characterId, group: params.groupId }, function(err, member){
+        var characterId;
+
+        try{
+            characterId = Number(params.characterId);
+        }catch(e){
+            return reject('Invalid character ID');
+        }
+
+        Member.findOne({'characters.id': characterId, group: params.groupId }, function(err, member){
 
             if(err) return reject(err);
-            if(!member) return reject('Unable to find membership for CID: ' + params.characterId + ' and GID ' + params.groupId);
+            if(!member) return reject('Unable to find membership for CID: ' + characterId + ' and GID ' + params.groupId);
 
             for(var c = 0; c < member.characters.length; c++)
             {
-                if(member.characters[c].id === params.characterId) {
+                if(member.characters[c].id === characterId) {
                     member.characters[c].status = 'Member';
                     member.characters[c].approvedDate = new Date();
                     member.characters[c].approvedBy = params.approvedBy;
