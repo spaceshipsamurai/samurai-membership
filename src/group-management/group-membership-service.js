@@ -68,18 +68,18 @@ exports.getByUserId = function (userId) {
                 var overallStatus = 'Inactive';
 
                 for (var c = 0; c < members[x].characters.length; c++) {
-                    if (members[x].characters[c].status === 'Pending' && overallStatus != 'Accepted') {
+                    if (members[x].characters[c].status === 'Pending' && overallStatus != 'Member') {
                         overallStatus = 'Pending';
                     }
-                    else if (members[x].characters[c].status === 'Accepted') {
+                    else if (members[x].characters[c].status === 'Member') {
                         if (group.owner && group.owner.id === members[x].characters[c].id) {
                             overallStatus = 'Owner';
                             break;
                         }
                         else if(managers.length > 0 && managers.indexOf(members[x].characters[c].id) > -1)
                             overallStatus = 'Manager';
-                        else if (overallStatus != 'Accepted')
-                            overallStatus = 'Accepted';
+                        else if (overallStatus != 'Member')
+                            overallStatus = 'Member';
                     }
                 }
 
@@ -124,7 +124,7 @@ exports.acceptMember = function(params) {
             for(var c = 0; c < member.characters.length; c++)
             {
                 if(member.characters[c].id === params.characterId) {
-                    member.characters[c].status = 'Accepted';
+                    member.characters[c].status = 'Member';
                     member.characters[c].approvedDate = new Date();
                     member.characters[c].approvedBy = params.approvedBy;
                     break;

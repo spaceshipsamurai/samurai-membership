@@ -57,7 +57,7 @@ describe('accepting a new character', function(){
 
         it('should set status to accepted', function(done){
             expect(member.characters[0].status).to.exist;
-            expect(member.characters[0].status).to.equal('Accepted');
+            expect(member.characters[0].status).to.equal('Member');
             done();
         });
     });

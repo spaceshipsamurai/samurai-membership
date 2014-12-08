@@ -11,7 +11,7 @@ var memberSchema = mongoose.Schema({
         approvedDate: Date,
         approvedBy: Schema.ObjectId,
         appliedDate: Date,
-        status: { type: String, enum: ['Pending', 'Accepted', 'Inactive']},
+        status: { type: String, enum: ['Pending', 'Member', 'Inactive']},
         inactive: {
             reason: String,
             date: Date

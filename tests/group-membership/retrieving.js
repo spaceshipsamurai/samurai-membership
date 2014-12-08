@@ -23,7 +23,7 @@ describe('getting memberships by userId', function(){
             approvedDate: new Date(),
             approvedBy: mongoose.Types.ObjectId(),
             appliedDate: new Date(),
-            status: 'Accepted'
+            status: 'Member'
         },{
             id: 2,
             name: 'Test Character 2',
@@ -186,7 +186,7 @@ describe('getting memberships by userId', function(){
                         approvedDate: new Date(),
                         approvedBy: mongoose.Types.ObjectId(),
                         appliedDate: new Date(),
-                        status: 'Accepted'
+                        status: 'Member'
                     }]
                 }).then(function(savedMember){
                     activeMember = savedMember;
@@ -198,10 +198,10 @@ describe('getting memberships by userId', function(){
                 });
             });
 
-            it('should have a memberStatus of accepted', function(done){
+            it('should have a memberStatus of Member', function(done){
                 expect(activeGroup).to.exist;
                 expect(activeGroup.memberStatus).to.exist;
-                expect(activeGroup.memberStatus).to.equal('Accepted');
+                expect(activeGroup.memberStatus).to.equal('Member');
                 done();
             });
         });
@@ -228,7 +228,7 @@ describe('getting memberships by userId', function(){
                     approvedDate: new Date(),
                     approvedBy: mongoose.Types.ObjectId(),
                     appliedDate: new Date(),
-                    status: 'Accepted'
+                    status: 'Member'
                 },{
                     id: 2,
                     name: 'Test Character 2',
@@ -285,7 +285,7 @@ describe('getting memberships by userId', function(){
                     approvedDate: new Date(),
                     approvedBy: mongoose.Types.ObjectId(),
                     appliedDate: new Date(),
-                    status: 'Accepted'
+                    status: 'Member'
                 },{
                     id: 2,
                     name: 'Test Character 2',
@@ -339,7 +339,7 @@ describe('getting members by group id', function(){
                 approvedDate: new Date(),
                 approvedBy: mongoose.Types.ObjectId(),
                 appliedDate: new Date(),
-                status: 'Accepted'
+                status: 'Member'
             },{
                 id: 2,
                 name: 'Test Character 2',
