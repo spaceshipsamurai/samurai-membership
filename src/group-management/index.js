@@ -10,3 +10,4 @@ exports.apply = memberService.apply;
 exports.getByUserId = memberService.getByUserId;
 exports.getMembersByGroup = memberService.getByGroup;
 exports.acceptMember = memberService.acceptMember;
+exports.removeCharacter = memberService.removeCharacter;

@@ -157,3 +157,37 @@ exports.acceptMember = function(params) {
 
     });
 };
+
+exports.removeCharacter = function(grpId, characterId) {
+
+    return new Promise(function(resolve, reject){
+
+        Member.findOne({group: grpId, 'characters.id': characterId}, function(err, member){
+
+            if(err) return reject(err);
+
+            for(var c = 0; c < member.characters.length; c++)
+            {
+                if(member.characters[c].id === characterId)
+                    member.characters.splice(c, 1);
+            }
+
+            if(member.characters.length === 0)
+            {
+                member.remove(function(err){
+                    if(err) return reject(err);
+                    return resolve();
+                });
+            }
+
+            member.save(function(err){
+                if(err) return reject(err);
+                return resolve();
+            });
+
+        });
+
+
+    });
+
+};

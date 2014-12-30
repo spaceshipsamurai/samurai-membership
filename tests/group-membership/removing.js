@@ -8,11 +8,87 @@ var utils = require('../utils'),
 describe('removing a character from a group', function(){
 
     describe('when the user has multiple characters', function(){
-        it('should remove only the given character');
+
+        var member;
+
+        before(function(done){
+
+            utils.createModel('Member', {
+                userId: mongoose.Types.ObjectId(),
+                characters: [{
+                    id: 1,
+                    name: 'Test Character',
+                    appliedDate: new Date(),
+                    status: 'Member'
+                },
+                {
+                    id: 2,
+                    name: 'Test Character 2',
+                    appliedDate: new Date(),
+                    status: 'Member'
+                }],
+                group: mongoose.Types.ObjectId()
+            }).then(function(savedMember){
+                member = savedMember;
+                done();
+            })
+
+        });
+
+        it('should remove only the given character', function(done){
+
+            Groups.removeCharacter(member.group, 2).then(function(){
+
+                MemberModel.findOne({userId: member.userId, group: member.group }, function(err, savedMember){
+                    expect(savedMember.characters).to.be.a('array');
+                    expect(savedMember.characters).to.have.length(1);
+                    expect(savedMember.characters[0].id).equal(1);
+                    done();
+                });
+
+            }).catch(function(err){
+                done(new Error(err));
+            });
+
+        });
     });
 
     describe('when character is the user\'s last character', function(){
-        it('should remove the entire member record');
+
+        var member;
+
+        before(function(done){
+
+            utils.createModel('Member', {
+                userId: mongoose.Types.ObjectId(),
+                characters: [{
+                    id: 2,
+                    name: 'Test Character 2',
+                    appliedDate: new Date(),
+                    status: 'Member'
+                }],
+                group: mongoose.Types.ObjectId()
+            }).then(function(savedMember){
+                member = savedMember;
+                done();
+            })
+
+        });
+
+        it('should remove the entire member record', function(done){
+
+            Groups.removeCharacter(member.group, 2).then(function(){
+
+                MemberModel.findOne({userId: member.userId, group: member.group }, function(err, savedMember){
+                    expect(savedMember).to.not.exist;
+                    done();
+                });
+
+            }).catch(function(err){
+                done(new Error(err));
+            });
+
+        });
     });
 
     describe('when the character is a manager', function(){
